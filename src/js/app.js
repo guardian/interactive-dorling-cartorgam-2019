@@ -32,6 +32,8 @@ function initialize(data) {
 
   datum = data[0];
 
+  console.log(data)
+
   projection.fitSize([width, height], topojson.feature(data[1], data[1].objects.ne_10m_admin_0_countries));
 
   let currentValues = []
