@@ -1,10 +1,11 @@
 import * as d3B from "d3"
 import * as topojson from "topojson"
+import * as d3GeoProjection from "d3-geo-projection"
 import cartels from 'raw-loader!./../assets/subscribers.csv'
 import map from '../assets/ne_10m_admin_0_countries.json';
 import { $ } from "./util"
 
-const d3 = Object.assign({}, d3B, topojson);
+const d3 = Object.assign({}, d3B, topojson, d3GeoProjection);
 
 const cartelsData = d3.csvParse(cartels);
 
@@ -54,7 +55,7 @@ let simulation = d3.forceSimulation()
   console.log("end")
 })
 
-let projection = d3.geoMercator();
+let projection = d3.geoEckert3();
 
 let path = d3.geoPath()
 .projection(projection)
@@ -78,7 +79,7 @@ let nodes = cartelsData.map(d => {
   let value = +d['total ' + year];
 
   return {
-    country: d.country,
+    continent: d.continent,
     x: point[0], y: point[1],
     x0: point[0], y0: point[1],
     value: value,
@@ -92,7 +93,7 @@ let node = svg.selectAll("circle")
 .data(nodes)
 .enter()
 .append("circle")
-.attr("class", d => d.country)
+.attr("class", d => d.continent)
 .attr("r", d => d.r )
 
 function updateDorling(date)
