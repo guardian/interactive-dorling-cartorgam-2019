@@ -32,8 +32,6 @@ function initialize(data) {
 
   datum = data[0];
 
-  console.log(data)
-
   projection.fitSize([width, height], topojson.feature(data[1], data[1].objects.ne_10m_admin_0_countries));
 
   let currentValues = []
@@ -46,6 +44,7 @@ function initialize(data) {
   .domain([0, max])
 
   nodes = data[0].map(d => {
+    
     let point = projection([d.latitude, d.longitude]);
     let value = +d["total " + year];
 
